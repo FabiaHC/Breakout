@@ -12,7 +12,7 @@ class MenuScene(scene.Scene):
         self.__buttons = {}
         self.__buttons["start"] = TextBox(20, [50, 15], "Start", (x, y))
 
-    def loop(self):
+    def loop(self, events):
         return False
 
 def main():
@@ -25,8 +25,8 @@ def main():
     sceneManager = scene.SceneManager("menu", MenuScene(screen))
 
     while not done:
-        done = sceneManager.loop()
-        pygame.event.pump()
+        events = events = pygame.event.get()
+        done = sceneManager.loop(events)
         clock.tick(60)
 
 if __name__ == "__main__":
