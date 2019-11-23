@@ -1,5 +1,6 @@
 import pygame
 import random
+import scene
 
 def main():
     pygame.init()
@@ -8,8 +9,10 @@ def main():
     done = False
     pygame.display.set_caption('Breakout!')
     clock = pygame.time.Clock()
+    sceneManager = scene.SceneManager()
 
     while not done:
+        done = sceneManager.loop()
         pygame.event.pump()
         clock.tick(60)
 
