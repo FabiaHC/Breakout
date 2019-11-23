@@ -50,7 +50,7 @@ class InGameScene(scene.Scene):
         for yRow in self.__blocks:
             for block in yRow:
                 if block.wasHit() == False:
-                    pygame.draw.rect(self.__screen, block.getCol(), block.getRect(), 10)
+                    self.__screen.blit(block.getSurf(), block.getPos())
 
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -60,10 +60,10 @@ class InGameScene(scene.Scene):
         return done
 
     def __initBlocks(self):
-        xBlocks = 10
+        xBlocks = 20
         yBlocks = 3
         x, y = self.__screen.get_size()
-        blockWidth = x // 10
+        blockWidth = x // xBlocks
         blockHeight = y // 15
         yOffset = y // 15 * 2
         blockNum = 0
@@ -74,21 +74,24 @@ class InGameScene(scene.Scene):
                 currentBlockPos = (blockWidth*x, yOffset + blockHeight*y)
                 currentBlockSize = (blockWidth, blockHeight)
                 numberIdentification = (y, x)
-                self.__blocks[y].append(Block((0, 0, 0), currentBlockPos, currentBlockSize, numberIdentification))
-
+                self.__blocks[y].append(Block((255/(y+1), 0, 0), currentBlockPos, currentBlockSize, numberIdentification))
 
 class Block():
     def __init__(self, colour, position, size, numbers):
         self.__nums = numbers
         self.__col = colour
         self.__hit = False
-        self.__rect = pygame.Rect(position, size)
+        self.__pos = position
+        self.__size = size
+        self.__blockSurfImg = pygame.Surface(size)
+        self.__blockSurfImg.fill(colour)
+        pygame.draw.rect(self.__blockSurfImg, (0, 0, 0), pygame.Rect((0, 0), size), 6)
 
     def wasHit(self):
         return self.__hit
 
-    def getRect(self):
-        return self.__rect
+    def getSurf(self):
+        return self.__blockSurfImg
 
-    def getCol(self):
-        return self.__col
+    def getPos(self):
+        return self.__pos
