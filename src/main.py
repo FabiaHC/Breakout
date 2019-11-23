@@ -11,6 +11,7 @@ def main():
     pygame.display.set_caption('Breakout!')
     clock = pygame.time.Clock()
     sceneManager = scene.SceneManager("menu", MenuScene(screen))
+    sceneManager.addScene("inGame", InGameScene(screen))
 
     while not done:
         events = events = pygame.event.get()

@@ -32,3 +32,18 @@ class MenuScene(scene.Scene):
                     done = True
 
         return done
+
+class InGameScene(scene.Scene):
+    def __init__(self, screen):
+        self.__screen = screen
+        self.init()
+
+    def loop(self):
+        done = False
+
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    done = True
+
+        return done
