@@ -6,6 +6,9 @@ from scene import TextBox
 class MenuScene(scene.Scene):
     def __init__(self, screen):
         self.__screen = screen
+        self.init()
+
+    def init(self):
         x, y = self.__screen.get_size()
         x //= 100 #One percent of pixels in the x axis
         y //= 100 #One percent of pixels in the y axis

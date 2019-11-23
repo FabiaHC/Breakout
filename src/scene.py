@@ -9,8 +9,12 @@ class SceneManager():
     def loop(self, events):
         return self.__scene[self.__currentScene].loop(events)
 
+    def addScene(self, sceneName, scene):
+        self.__scene[sceneName] = scene
+
     def setScene(self, sceneName):
         self.__currentScene = sceneName
+        self.__scene[self.__currentScene].init()
 
 class Scene():
     def init(self):
