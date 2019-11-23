@@ -47,6 +47,10 @@ class InGameScene(scene.Scene):
         done = False
 
         self.__screen.fill((255, 255, 255))
+        for yRow in self.__blocks:
+            for block in yRow:
+                if block.wasHit() == False:
+                    pygame.draw.rect(self.__screen, block.getCol(), block.getRect(), 10)
 
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -70,12 +74,21 @@ class InGameScene(scene.Scene):
                 currentBlockPos = (blockWidth*x, yOffset + blockHeight*y)
                 currentBlockSize = (blockWidth, blockHeight)
                 numberIdentification = (y, x)
-                self.__blocks[y].append(Block((0, 0, 0), currentBlockPos, currentBlockPos, numberIdentification))
+                self.__blocks[y].append(Block((0, 0, 0), currentBlockPos, currentBlockSize, numberIdentification))
 
 
 class Block():
     def __init__(self, colour, position, size, numbers):
         self.__nums = numbers
         self.__col = colour
-        self.__pos = position
-        self.__size = size
+        self.__hit = False
+        self.__rect = pygame.Rect(position, size)
+
+    def wasHit(self):
+        return self.__hit
+
+    def getRect(self):
+        return self.__rect
+
+    def getCol(self):
+        return self.__col

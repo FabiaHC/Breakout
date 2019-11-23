@@ -5,7 +5,7 @@ class SceneManager():
         self.__currentScene = initialSceneName
         initialScene.setScene = self.setScene
         self.__scene = {initialSceneName : initialScene}
-        self.__scene[self.__currentScene].init()
+        self.__scene[self.__currentScene]
 
     def loop(self, events):
         return self.__scene[self.__currentScene].loop(events)
