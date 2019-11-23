@@ -15,6 +15,10 @@ class MenuScene(scene.Scene):
     def loop(self, events):
         done = False
 
+        self.__screen.fill((255, 255, 255))
+        for button in self.__buttons.values():
+            button.blit(self.__screen, True)
+
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -34,6 +38,7 @@ def main():
     while not done:
         events = events = pygame.event.get()
         done = sceneManager.loop(events)
+        pygame.display.update()
         clock.tick(60)
 
 if __name__ == "__main__":
