@@ -61,7 +61,7 @@ class InGameScene(scene.Scene):
 
     def __initBlocks(self):
         xBlocks = 20
-        yBlocks = 3
+        yBlocks = 5
         x, y = self.__screen.get_size()
         blockWidth = x // xBlocks
         blockHeight = y // 15
@@ -74,7 +74,7 @@ class InGameScene(scene.Scene):
                 currentBlockPos = (blockWidth*x, yOffset + blockHeight*y)
                 currentBlockSize = (blockWidth, blockHeight)
                 numberIdentification = (y, x)
-                self.__blocks[y].append(Block((255/(y+1), 0, 0), currentBlockPos, currentBlockSize, numberIdentification))
+                self.__blocks[y].append(Block((255/(yBlocks)*(y+1), 255-(255/(yBlocks)*(y+1)), 255/(xBlocks)*(x+1)), currentBlockPos, currentBlockSize, numberIdentification))
 
 class Block():
     def __init__(self, colour, position, size, numbers):
