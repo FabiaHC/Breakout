@@ -28,6 +28,8 @@ class MenuScene(scene.Scene):
                     done = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = event.pos
+                if self.__buttons["start"].getRect().collidepoint(x, y):
+                    self.setScene("inGame")
                 if self.__buttons["quit"].getRect().collidepoint(x, y):
                     done = True
 
@@ -38,8 +40,10 @@ class InGameScene(scene.Scene):
         self.__screen = screen
         self.init()
 
-    def loop(self):
+    def loop(self, events):
         done = False
+
+        self.__screen.fill((255, 255, 255))
 
         for event in events:
             if event.type == pygame.KEYDOWN:

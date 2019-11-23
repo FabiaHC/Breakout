@@ -3,6 +3,7 @@ import pygame
 class SceneManager():
     def __init__(self, initialSceneName, initialScene):
         self.__currentScene = initialSceneName
+        initialScene.setScene = self.setScene
         self.__scene = {initialSceneName : initialScene}
         self.__scene[self.__currentScene].init()
 
@@ -10,6 +11,7 @@ class SceneManager():
         return self.__scene[self.__currentScene].loop(events)
 
     def addScene(self, sceneName, scene):
+        scene.setScene = self.setScene
         self.__scene[sceneName] = scene
 
     def setScene(self, sceneName):
