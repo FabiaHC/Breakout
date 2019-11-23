@@ -2,6 +2,13 @@ import pygame
 import random
 import scene
 
+class MenuScene(scene.Scene):
+    def init(self):
+        print("Menu Setup")
+
+    def loop(self):
+        return False
+
 def main():
     pygame.init()
     pygame.mixer.init()
@@ -9,10 +16,10 @@ def main():
     done = False
     pygame.display.set_caption('Breakout!')
     clock = pygame.time.Clock()
-    #sceneManager = scene.SceneManager()
+    sceneManager = scene.SceneManager("menu", MenuScene(screen))
 
     while not done:
-        #done = sceneManager.loop()
+        done = sceneManager.loop()
         pygame.event.pump()
         clock.tick(60)
 
