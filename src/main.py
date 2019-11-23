@@ -13,7 +13,14 @@ class MenuScene(scene.Scene):
         self.__buttons["start"] = TextBox(20, [50, 15], "Start", (x, y))
 
     def loop(self, events):
-        return False
+        done = False
+
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    done = True
+
+        return done
 
 def main():
     pygame.init()
