@@ -42,11 +42,14 @@ class InGameScene(scene.Scene):
 
     def init(self):
         self.__initBlocks()
+        x, y = self.__screen.get_size()
+        self.__bar = Bar((x//2 - x//20, y - y//5), (x//20, y//100))
 
     def loop(self, events):
         done = False
 
         self.__screen.fill((255, 255, 255))
+        self.__screen.blit(self.__bar.getSurfImg(), self.__bar.getPos())
         for yRow in self.__blocks:
             for block in yRow:
                 if block.wasHit() == False:
@@ -92,6 +95,21 @@ class Block():
 
     def getSurf(self):
         return self.__blockSurfImg
+
+    def getPos(self):
+        return self.__pos
+
+class Bar():
+    def __init__(self, position, size):
+        self.__pos = position
+        self.__size = size
+        self.__barSurfImg = pygame.Surface(size)
+        self.__barSurfImg.fill((0, 255, 125))
+        self.__rect = pygame.Rect(position, size)
+        pygame.draw.rect(self.__barSurfImg, (0, 0, 0), pygame.Rect((0, 0), size), 3)
+
+    def getSurfImg(self):
+        return self.__barSurfImg
 
     def getPos(self):
         return self.__pos
