@@ -7,7 +7,6 @@ class SceneManager():
         self.__scene[self.__currentScene].init()
 
     def loop(self):
-        done = False
         return self.__scene[self.__currentScene].loop()
 
     def setScene(self, sceneName):
