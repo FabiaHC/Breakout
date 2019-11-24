@@ -1,6 +1,7 @@
 import pygame
 import scene
 from scene import TextBox
+import math
 
 class MenuScene(scene.Scene):
     def __init__(self, screen):
@@ -44,7 +45,7 @@ class InGameScene(scene.Scene):
         self.__initBlocks()
         x, y = self.__screen.get_size()
         self.__bar = Bar((x//2 - x//20, y - y//5), (x//10, y//50))
-        self.__ball = Ball(((x//2 - x//20, y - y//6)), (x//100, x//100))
+        self.__ball = Ball((x//2 - x//20, y - y//6), (x//100, x//100))
 
     def loop(self, events):
         done = False
@@ -64,6 +65,7 @@ class InGameScene(scene.Scene):
 
         x, y = pygame.mouse.get_pos()
         self.__bar.updatePos((x, y))
+        self.__ball.updatePos()
 
         return done
 
@@ -129,8 +131,13 @@ class Ball():
     def __init__(self, position, size):
         self.__pos = position
         self.__size = size
-        self.__vec = [1, 1]
+        self.__vec = [3, 1]
         self.__speed = 1
+        magnitude = math.sqrt(self.__vec[0]**2+self.__vec[1]**2)
+        self.__vec[0] /= magnitude
+        self.__vec[0] *= self.__speed
+        self.__vec[1] /= magnitude
+        self.__vec[1] *= self.__speed
 
         self.__ballSurfImg = pygame.Surface(size)
         self.__ballSurfImg.fill((190, 60, 190))
@@ -144,8 +151,7 @@ class Ball():
             self.__vec[1] *= -1
 
     def updatePos(self):
-        self.__pos[0] += self.__vec[0]
-        self.__pos[1] += self.__vec[1]
+        self.__pos = (self.__pos[0]+self.__vec[0], self.__pos[1]+self.__vec[1])
 
     def getSurfImg(self):
         return self.__ballSurfImg
