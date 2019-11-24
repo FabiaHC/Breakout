@@ -44,12 +44,14 @@ class InGameScene(scene.Scene):
         self.__initBlocks()
         x, y = self.__screen.get_size()
         self.__bar = Bar((x//2 - x//20, y - y//5), (x//10, y//50))
+        self.__ball = Ball(((x//2 - x//20, y - y//6)), (x//100, x//100))
 
     def loop(self, events):
         done = False
 
         self.__screen.fill((255, 255, 255))
         self.__screen.blit(self.__bar.getSurfImg(), self.__bar.getPos())
+        self.__screen.blit(self.__ball.getSurfImg(), self.__ball.getPos())
         for yRow in self.__blocks:
             for block in yRow:
                 if block.wasHit() == False:
@@ -130,6 +132,11 @@ class Ball():
         self.__vec = [1, 1]
         self.__speed = 1
 
+        self.__ballSurfImg = pygame.Surface(size)
+        self.__ballSurfImg.fill((190, 60, 190))
+        self.__rect = pygame.Rect(position, size)
+        pygame.draw.rect(self.__ballSurfImg, (0, 0, 0), pygame.Rect((0, 0), size), 3)
+
     def hit(self, side):
         if side == "top" or side == "bottom":
             self.__vec[0] *= -1
@@ -139,3 +146,9 @@ class Ball():
     def updatePos(self):
         self.__pos[0] += self.__vec[0]
         self.__pos[1] += self.__vec[1]
+
+    def getSurfImg(self):
+        return self.__ballSurfImg
+
+    def getPos(self):
+        return self.__pos
