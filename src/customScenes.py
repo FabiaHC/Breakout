@@ -60,6 +60,9 @@ class InGameScene(scene.Scene):
                 if event.key == pygame.K_ESCAPE:
                     done = True
 
+        x, y = pygame.mouse.get_pos()
+        self.__bar.updatePos((x, y))
+
         return done
 
     def __initBlocks(self):
@@ -113,3 +116,9 @@ class Bar():
 
     def getPos(self):
         return self.__pos
+
+    def updatePos(self, pos):
+        x = pos[0]
+        x += (self.__size[0]//2)
+        pos = (x, self.__pos[1])
+        self.__pos = pos
