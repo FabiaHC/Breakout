@@ -39,6 +39,7 @@ class MenuScene(scene.Scene):
 class InGameScene(scene.Scene):
     def __init__(self, screen):
         self.__screen = screen
+        self.__score = 0
         self.init()
 
     def init(self):
@@ -55,8 +56,7 @@ class InGameScene(scene.Scene):
         self.__screen.blit(self.__ball.getSurfImg(), self.__ball.getPos())
         for yRow in self.__blocks:
             for block in yRow:
-                if block.wasHit() == False:
-                    self.__screen.blit(block.getSurf(), block.getPos())
+                self.__screen.blit(block.getSurf(), block.getPos())
 
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -70,7 +70,8 @@ class InGameScene(scene.Scene):
         if self.__bar.getRect().colliderect(ballRect):
             self.__ball.hit("bar")
         for yRow in self.__blocks:
-            for block in yRow:
+            for i in range(len(yRow)):
+                block = yRow[i]
                 blockRect = block.getRect()
                 if blockRect.collidepoint(ballRect.midbottom):
                     self.__ball.hit("top")
@@ -82,8 +83,9 @@ class InGameScene(scene.Scene):
                     self.__ball.hit("right")
                 else:
                     continue
-                block.hit()
-                
+                yRow.pop(i)
+                break
+
         self.__ball.updatePos()
 
         return done
@@ -109,16 +111,12 @@ class Block():
     def __init__(self, colour, position, size, numbers):
         self.__nums = numbers
         self.__col = colour
-        self.__hit = False
         self.__pos = position
         self.__size = size
         self.__rect = pygame.Rect(position, size)
         self.__blockSurfImg = pygame.Surface(size)
         self.__blockSurfImg.fill(colour)
         pygame.draw.rect(self.__blockSurfImg, (0, 0, 0), pygame.Rect((0, 0), size), 6)
-
-    def wasHit(self):
-        return self.__hit
 
     def getSurf(self):
         return self.__blockSurfImg
@@ -128,9 +126,6 @@ class Block():
 
     def getRect(self):
         return self.__rect
-
-    def hit(self):
-        self.__hit = True
 
 class Bar():
     def __init__(self, position, size):
@@ -162,7 +157,7 @@ class Ball():
         self.__pos = position
         self.__size = size
         self.__vec = [3, 1]
-        self.__speed = 4
+        self.__speed = 8
         magnitude = math.sqrt(self.__vec[0]**2+self.__vec[1]**2)
         self.__vec[0] /= magnitude
         self.__vec[0] *= self.__speed
