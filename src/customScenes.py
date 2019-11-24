@@ -68,6 +68,10 @@ class InGameScene(scene.Scene):
         self.__ball.hitBorder((0, 0), self.__screen.get_size())
         if self.__bar.getRect().colliderect(self.__ball.getRect()):
             self.__ball.hit("bar")
+        for yRow in self.__blocks:
+            for block in yRow:
+                if block.getRect().collidepoint(self.__ball.getRect().midbottom):
+                    self.__ball.hit("top")
         self.__ball.updatePos()
 
         return done
@@ -96,6 +100,7 @@ class Block():
         self.__hit = False
         self.__pos = position
         self.__size = size
+        self.__rect = pygame.Rect(position, size)
         self.__blockSurfImg = pygame.Surface(size)
         self.__blockSurfImg.fill(colour)
         pygame.draw.rect(self.__blockSurfImg, (0, 0, 0), pygame.Rect((0, 0), size), 6)
@@ -108,6 +113,9 @@ class Block():
 
     def getPos(self):
         return self.__pos
+
+    def getRect(self):
+        return self.__rect
 
 class Bar():
     def __init__(self, position, size):
