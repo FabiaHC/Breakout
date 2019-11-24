@@ -119,6 +119,6 @@ class Bar():
 
     def updatePos(self, pos):
         x = pos[0]
-        x += (self.__size[0]//2)
+        x -= (self.__size[0]//2)
         pos = (x, self.__pos[1])
         self.__pos = pos
