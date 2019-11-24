@@ -114,6 +114,30 @@ class InGameScene(scene.Scene):
                 numberIdentification = (y, x)
                 self.__blocks[y].append(Block((255/(yBlocks)*(y+1), 255-(255/(yBlocks)*(y+1)), 255/(xBlocks)*(x+1)), currentBlockPos, currentBlockSize, numberIdentification))
 
+class ScoreScene(scene.Scene):
+    def __init__(self, screen):
+        self.__screen = screen
+        self.init()
+
+    def init(self):
+        x, y = self.__screen.get_size()
+        x //= 100 #One percent of pixels in the x axis
+        y //= 100 #One percent of pixels in the y axix
+        self.__scoreDisplaySurface = TextBox(20, [50, 50], "Score", (x, y))
+
+    def loop(self, events):
+        done = False
+
+        self.__screen.fill((255, 255, 255))
+        self.__scoreDisplaySurface.blit(self.__screen, True)
+
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    done = True
+
+        return done
+
 class Block():
     def __init__(self, colour, position, size, numbers):
         self.__nums = numbers

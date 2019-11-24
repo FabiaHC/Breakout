@@ -12,6 +12,7 @@ def main():
     clock = pygame.time.Clock()
     sceneManager = scene.SceneManager("menu", MenuScene(screen))
     sceneManager.addScene("inGame", InGameScene(screen))
+    sceneManager.addScene("scoreDisplay", ScoreScene(screen))
 
     while not done:
         events = events = pygame.event.get()
