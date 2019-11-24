@@ -65,6 +65,7 @@ class InGameScene(scene.Scene):
 
         x, y = pygame.mouse.get_pos()
         self.__bar.updatePos((x, y))
+        self.__ball.hitBorder((0, 0), self.__screen.get_size())
         self.__ball.updatePos()
 
         return done
@@ -132,12 +133,14 @@ class Ball():
         self.__pos = position
         self.__size = size
         self.__vec = [3, 1]
-        self.__speed = 1
+        self.__speed = 3
         magnitude = math.sqrt(self.__vec[0]**2+self.__vec[1]**2)
         self.__vec[0] /= magnitude
         self.__vec[0] *= self.__speed
         self.__vec[1] /= magnitude
         self.__vec[1] *= self.__speed
+
+        self.__lastHit = None
 
         self.__ballSurfImg = pygame.Surface(size)
         self.__ballSurfImg.fill((190, 60, 190))
@@ -145,10 +148,13 @@ class Ball():
         pygame.draw.rect(self.__ballSurfImg, (0, 0, 0), pygame.Rect((0, 0), size), 3)
 
     def hit(self, side):
-        if side == "top" or side == "bottom":
-            self.__vec[0] *= -1
-        elif side == "right" or side == "left":
+        if side == "top" or side == "bottom" and self.__lastHit != "y":
             self.__vec[1] *= -1
+            self.__lastHit = "y"
+        elif side == "right" or side == "left" and self.__lastHit != "x":
+            self.__vec[0] *= -1
+            self.__lastHit = "x"
+        print(self.__vec)
 
     def updatePos(self):
         self.__pos = (self.__pos[0]+self.__vec[0], self.__pos[1]+self.__vec[1])
@@ -158,3 +164,18 @@ class Ball():
 
     def getPos(self):
         return self.__pos
+
+    def hitBorder(self, pos, size):
+        top = pos[1]
+        bottom = pos[1] + size[1]
+        right = pos[0]
+        left = pos[0] + size[0]
+        x, y = self.__pos
+        if y < top:
+            self.hit("top")
+        elif y > bottom:
+            self.hit("bottom")
+        if x < right:
+            self.hit("right")
+        elif x > left:
+            self.hit("left")
