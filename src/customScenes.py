@@ -71,8 +71,10 @@ class InGameScene(scene.Scene):
         self.__bar.updatePos((x, y))
         self.__ball.hitBorder((0, 0), self.__screen.get_size())
         ballRect = self.__ball.getRect()
+
         if self.__bar.getRect().colliderect(ballRect):
-            self.__ball.hit("bar")
+            self.__ball.hitBar(self.__bar.getPos(), self.__bar.getSize())
+
         for yRow in self.__blocks:
             for i in range(len(yRow)):
                 block = yRow[i]
@@ -147,6 +149,9 @@ class Bar():
     def getPos(self):
         return self.__pos
 
+    def getSize(self):
+        return self.__size
+
     def updatePos(self, pos):
         x = pos[0]
         x -= (self.__size[0]//2)
@@ -220,3 +225,16 @@ class Ball():
 
     def getRect(self):
         return self.__rect
+
+    def hitBar(self, barPos, barSize):
+        x = self.__pos[0]
+        barX = barPos[0]
+        barXWidtht = barSize[0] // 2
+        x -= barX
+        x -= barXWidtht
+        self.__vec = [3*x/barXWidtht, -1]
+        magnitude = math.sqrt(self.__vec[0]**2+self.__vec[1]**2)
+        self.__vec[0] /= magnitude
+        self.__vec[0] *= self.__speed
+        self.__vec[1] /= magnitude
+        self.__vec[1] *= self.__speed
