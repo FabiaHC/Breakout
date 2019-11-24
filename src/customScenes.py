@@ -51,8 +51,12 @@ class InGameScene(scene.Scene):
     def loop(self, events):
         done = False
         x, y = pygame.mouse.get_pos()
+        screenSize = self.__screen.get_size()
+        font = pygame.font.Font('assets/PressStart2P.ttf', screenSize[1]//20)
+        scoreSurface = font.render("Score: "+str(self.__score), True, (0,0,0))
 
         self.__screen.fill((255, 255, 255))
+        self.__screen.blit(scoreSurface, (0, 0))
         self.__screen.blit(self.__bar.getSurfImg(), self.__bar.getPos())
         self.__screen.blit(self.__ball.getSurfImg(), self.__ball.getPos())
         for yRow in self.__blocks:
