@@ -43,7 +43,7 @@ class InGameScene(scene.Scene):
     def init(self):
         self.__initBlocks()
         x, y = self.__screen.get_size()
-        self.__bar = Bar((x//2 - x//20, y - y//5), (x//20, y//100))
+        self.__bar = Bar((x//2 - x//20, y - y//5), (x//10, y//50))
 
     def loop(self, events):
         done = False
