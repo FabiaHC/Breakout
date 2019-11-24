@@ -74,16 +74,16 @@ class InGameScene(scene.Scene):
                 blockRect = block.getRect()
                 if blockRect.collidepoint(ballRect.midbottom):
                     self.__ball.hit("top")
-                    block.hit()
                 elif blockRect.collidepoint(ballRect.midtop):
                     self.__ball.hit("bottom")
-                    block.hit()
                 elif blockRect.collidepoint(ballRect.midright):
                     self.__ball.hit("left")
-                    block.hit()
                 elif blockRect.collidepoint(ballRect.midleft):
                     self.__ball.hit("right")
-                    block.hit()
+                else:
+                    continue
+                block.hit()
+                
         self.__ball.updatePos()
 
         return done
