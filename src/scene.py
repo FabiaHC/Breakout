@@ -14,9 +14,9 @@ class SceneManager():
         scene.setScene = self.setScene
         self.__scene[sceneName] = scene
 
-    def setScene(self, sceneName):
+    def setScene(self, sceneName, vars):
         self.__currentScene = sceneName
-        self.__scene[self.__currentScene].init()
+        self.__scene[self.__currentScene].init(vars)
 
 class Scene():
     def init(self):

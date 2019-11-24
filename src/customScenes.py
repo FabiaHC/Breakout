@@ -6,9 +6,9 @@ import math
 class MenuScene(scene.Scene):
     def __init__(self, screen):
         self.__screen = screen
-        self.init()
+        self.init({})
 
-    def init(self):
+    def init(self, vars):
         x, y = self.__screen.get_size()
         x //= 100 #One percent of pixels in the x axis
         y //= 100 #One percent of pixels in the y axis
@@ -30,7 +30,7 @@ class MenuScene(scene.Scene):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = event.pos
                 if self.__buttons["start"].getRect().collidepoint(x, y):
-                    self.setScene("inGame")
+                    self.setScene("inGame", {})
                 if self.__buttons["quit"].getRect().collidepoint(x, y):
                     done = True
 
@@ -40,9 +40,9 @@ class InGameScene(scene.Scene):
     def __init__(self, screen):
         self.__screen = screen
         self.__score = 0
-        self.init()
+        self.init({})
 
-    def init(self):
+    def init(self, vars):
         self.__initBlocks()
         x, y = self.__screen.get_size()
         self.__bar = Bar((x//2 - x//20, y - y//5), (x//10, y//50))
@@ -50,6 +50,7 @@ class InGameScene(scene.Scene):
 
     def loop(self, events):
         done = False
+
         x, y = pygame.mouse.get_pos()
         screenSize = self.__screen.get_size()
         font = pygame.font.Font('assets/PressStart2P.ttf', screenSize[1]//20)
@@ -117,13 +118,14 @@ class InGameScene(scene.Scene):
 class ScoreScene(scene.Scene):
     def __init__(self, screen):
         self.__screen = screen
-        self.init()
+        self.init({"score" : 0})
 
-    def init(self):
+    def init(self, vars):
+        self.__score = vars["score"]
         x, y = self.__screen.get_size()
         x //= 100 #One percent of pixels in the x axis
         y //= 100 #One percent of pixels in the y axix
-        self.__scoreDisplaySurface = TextBox(20, [50, 50], "Score", (x, y))
+        self.__scoreDisplaySurface = TextBox(20, [50, 50], "Score:"+str(self.__score), (x, y))
 
     def loop(self, events):
         done = False
