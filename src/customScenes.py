@@ -122,3 +122,20 @@ class Bar():
         x -= (self.__size[0]//2)
         pos = (x, self.__pos[1])
         self.__pos = pos
+
+class Ball():
+    def __init__(self, position, size):
+        self.__pos = position
+        self.__size = size
+        self.__vec = [1, 1]
+        self.__speed = 1
+
+    def hit(self, side):
+        if side == "top" or side == "bottom":
+            self.__vec[0] *= -1
+        elif side == "right" or side == "left":
+            self.__vec[1] *= -1
+
+    def updatePos(self):
+        self.__pos[0] += self.__vec[0]
+        self.__pos[1] += self.__vec[1]
