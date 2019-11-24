@@ -74,12 +74,16 @@ class InGameScene(scene.Scene):
                 blockRect = block.getRect()
                 if blockRect.collidepoint(ballRect.midbottom):
                     self.__ball.hit("top")
-                if blockRect.collidepoint(ballRect.midtop):
+                    block.hit()
+                elif blockRect.collidepoint(ballRect.midtop):
                     self.__ball.hit("bottom")
-                if blockRect.collidepoint(ballRect.midright):
+                    block.hit()
+                elif blockRect.collidepoint(ballRect.midright):
                     self.__ball.hit("left")
-                if blockRect.collidepoint(ballRect.midleft):
+                    block.hit()
+                elif blockRect.collidepoint(ballRect.midleft):
                     self.__ball.hit("right")
+                    block.hit()
         self.__ball.updatePos()
 
         return done
@@ -124,6 +128,9 @@ class Block():
 
     def getRect(self):
         return self.__rect
+
+    def hit(self):
+        self.__hit = True
 
 class Bar():
     def __init__(self, position, size):
