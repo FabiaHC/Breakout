@@ -66,12 +66,20 @@ class InGameScene(scene.Scene):
         x, y = pygame.mouse.get_pos()
         self.__bar.updatePos((x, y))
         self.__ball.hitBorder((0, 0), self.__screen.get_size())
-        if self.__bar.getRect().colliderect(self.__ball.getRect()):
+        ballRect = self.__ball.getRect()
+        if self.__bar.getRect().colliderect(ballRect):
             self.__ball.hit("bar")
         for yRow in self.__blocks:
             for block in yRow:
-                if block.getRect().collidepoint(self.__ball.getRect().midbottom):
+                blockRect = block.getRect()
+                if blockRect.collidepoint(ballRect.midbottom):
                     self.__ball.hit("top")
+                if blockRect.collidepoint(ballRect.midtop):
+                    self.__ball.hit("bottom")
+                if blockRect.collidepoint(ballRect.midright):
+                    self.__ball.hit("left")
+                if blockRect.collidepoint(ballRect.midleft):
+                    self.__ball.hit("right")
         self.__ball.updatePos()
 
         return done
@@ -162,12 +170,18 @@ class Ball():
         pygame.draw.rect(self.__ballSurfImg, (0, 0, 0), pygame.Rect((0, 0), size), 3)
 
     def hit(self, side):
-        if side == "top" or side == "bottom" and self.__lastHit != "y":
+        if side == "top" and self.__lastHit != "top":
             self.__vec[1] *= -1
-            self.__lastHit = "y"
-        elif side == "right" or side == "left" and self.__lastHit != "x":
+            self.__lastHit = "top"
+        if side == "bottom" and self.__lastHit != "bottom":
+            self.__vec[1] *= -1
+            self.__lastHit = "bottom"
+        elif side == "right" and self.__lastHit != "right":
             self.__vec[0] *= -1
-            self.__lastHit = "x"
+            self.__lastHit = "right"
+        elif side == "left" and self.__lastHit != "left":
+            self.__vec[0] *= -1
+            self.__lastHit = "left"
         elif side == "bar":
             self.__vec[1] *= -1
             self.__lastHit = "bar"
