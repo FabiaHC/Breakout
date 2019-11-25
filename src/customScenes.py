@@ -70,7 +70,8 @@ class InGameScene(scene.Scene):
                     done = True
 
         self.__bar.updatePos((x, y))
-        self.__ball.hitBorder((0, 0), self.__screen.get_size())
+        if self.__ball.hitBorder((0, 0), self.__screen.get_size()) == "hitBottom":
+            self.setScene("scoreDisplay", {"score" : self.__score})
         ballRect = self.__ball.getRect()
 
         if self.__bar.getRect().colliderect(ballRect):
@@ -211,7 +212,7 @@ class Ball():
         if side == "top" and self.__lastHit != "top":
             self.__vec[1] *= -1
             self.__lastHit = "top"
-        if side == "bottom" and self.__lastHit != "bottom":
+        elif side == "bottom" and self.__lastHit != "bottom":
             self.__vec[1] *= -1
             self.__lastHit = "bottom"
         elif side == "right" and self.__lastHit != "right":
@@ -243,7 +244,7 @@ class Ball():
         if y < top:
             self.hit("top")
         elif y > bottom:
-            self.hit("bottom")
+            return "hitBottom"
         if x < right:
             self.hit("right")
         elif x > left:
