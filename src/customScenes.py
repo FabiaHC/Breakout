@@ -218,29 +218,22 @@ class Ball():
         self.__vec[1] /= magnitude
         self.__vec[1] *= self.__speed
 
-        self.__lastHit = None
-
         self.__ballSurfImg = pygame.Surface(size)
         self.__ballSurfImg.fill((190, 60, 190))
         self.__rect = pygame.Rect(position, size)
         pygame.draw.rect(self.__ballSurfImg, (0, 0, 0), pygame.Rect((0, 0), size), 3)
 
     def hit(self, side):
-        if side == "top" and self.__lastHit != "top":
+        if side == "top":
             self.__vec[1] *= -1
-            self.__lastHit = "top"
-        elif side == "bottom" and self.__lastHit != "bottom":
+        elif side == "bottom":
             self.__vec[1] *= -1
-            self.__lastHit = "bottom"
-        elif side == "right" and self.__lastHit != "right":
+        elif side == "right":
             self.__vec[0] *= -1
-            self.__lastHit = "right"
-        elif side == "left" and self.__lastHit != "left":
+        elif side == "left":
             self.__vec[0] *= -1
-            self.__lastHit = "left"
         elif side == "bar":
             self.__vec[1] *= -1
-            self.__lastHit = "bar"
 
     def updatePos(self):
         self.__pos = (self.__pos[0]+self.__vec[0], self.__pos[1]+self.__vec[1])
