@@ -27,6 +27,8 @@ class MenuScene(scene.Scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     done = True
+                if event.key == pygame.K_RETURN:
+                    self.setScene("inGame", {})
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = event.pos
                 if self.__buttons["start"].getRect().collidepoint(x, y):
@@ -144,6 +146,8 @@ class ScoreScene(scene.Scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     done = True
+                if event.key == pygame.K_RETURN:
+                    self.setScene("menu", {})
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = event.pos
                 if self.__continueButton.getRect().collidepoint(x, y):
