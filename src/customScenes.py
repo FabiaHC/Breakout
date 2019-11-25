@@ -258,9 +258,10 @@ class Ball():
         barXWidtht = barSize[0] // 2
         x -= barX
         x -= barXWidtht
-        self.__vec = [3*x/barXWidtht, -1]
+        self.__vec = [3*x/barXWidtht, 1]
         magnitude = math.sqrt(self.__vec[0]**2+self.__vec[1]**2)
         self.__vec[0] /= magnitude
         self.__vec[0] *= self.__speed
         self.__vec[1] /= magnitude
         self.__vec[1] *= self.__speed
+        self.hit("bar")
