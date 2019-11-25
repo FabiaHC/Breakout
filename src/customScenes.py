@@ -14,16 +14,18 @@ class MenuScene(scene.Scene):
         x //= 100 #One percent of pixels in the x axis
         y //= 100 #One percent of pixels in the y axis
         self.__buttons = {}
-        self.__buttons["start"] = TextBox(20, [50, 15], "Start", (x, y))
-        self.__buttons["quit"] = TextBox(20, [50, 40], "Quit", (x, y))
+        self.__buttons["start"] = TextBox(20, [50, 15], "Start", (x, y)) #Start Button
+        self.__buttons["quit"] = TextBox(20, [50, 40], "Quit", (x, y)) #Quit Button
 
     def loop(self, events):
         done = False
 
+        #Display Background and buttons
         self.__screen.fill((255, 255, 255))
         for button in self.__buttons.values():
             button.blit(self.__screen, True)
 
+        #Input handling
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -50,19 +52,22 @@ class InGameScene(scene.Scene):
         self.spritesInit()
 
     def spritesInit(self):
-        self.__initBlocks()
+        self.__initBlocks() #Create blocks
         x, y = self.__screen.get_size()
-        self.__bar = Bar((x//2 - x//20, y - y//5), (x//10, y//50))
-        self.__ball = Ball((x//2 - x//20, y - y//4), (x//100, x//100))
+        self.__bar = Bar((x//2 - x//20, y - y//5), (x//10, y//50)) #Create bar
+        self.__ball = Ball((x//2 - x//20, y - y//4), (x//100, x//100)) #Create ball
 
     def loop(self, events):
         done = False
 
         x, y = pygame.mouse.get_pos()
+
+        #Create score text
         screenSize = self.__screen.get_size()
         font = pygame.font.Font('assets/PressStart2P.ttf', screenSize[1]//20)
         scoreSurface = font.render("Score: "+str(self.__score), True, (0,0,0))
 
+        #Display background, ball, bar and blocks
         self.__screen.fill((255, 255, 255))
         self.__screen.blit(scoreSurface, (0, 0))
         self.__screen.blit(self.__bar.getSurfImg(), self.__bar.getPos())
@@ -71,19 +76,25 @@ class InGameScene(scene.Scene):
             for block in yRow:
                 self.__screen.blit(block.getSurf(), block.getPos())
 
+        #Input handling
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     done = True
 
+        #Update position of the bar
         self.__bar.updatePos((x, y))
+
+        #Check if the ball hit the bottom of the screen
         if self.__ball.hitBorder((0, 0), self.__screen.get_size()) == "hitBottom":
             self.setScene("scoreDisplay", {"score" : self.__score})
-        ballRect = self.__ball.getRect()
 
+        #Check if the vall hit the bar
+        ballRect = self.__ball.getRect()
         if self.__bar.getRect().colliderect(ballRect):
             self.__ball.hitBar(self.__bar.getPos(), self.__bar.getSize())
 
+        #Check if the ball hit any block
         for yRow in self.__blocks:
             for i in range(len(yRow)):
                 block = yRow[i]
@@ -98,15 +109,18 @@ class InGameScene(scene.Scene):
                     self.__ball.hit("right")
                 else:
                     continue
-                yRow.pop(i)
+                yRow.pop(i) #Remove block if hit
                 self.__score += 20
                 break
 
+        #Update ball position
         self.__ball.updatePos()
 
+        #Check if all the blocks are gone
         for yRow in self.__blocks:
             if len(yRow) != 0:
                 return done
+        #If they are generate them again
         self.spritesInit()
         return done
 
@@ -116,15 +130,15 @@ class InGameScene(scene.Scene):
         x, y = self.__screen.get_size()
         blockWidth = x // xBlocks
         blockHeight = y // 15
-        yOffset = y // 15 * 2
+        yOffset = y // 15 * 2 #How much down the blocks should start at
         blockNum = 0
         self.__blocks = []
-        for y in range(yBlocks):
+        for y in range(yBlocks): #For each row
             self.__blocks.append([])
-            for x in range(xBlocks):
+            for x in range(xBlocks): #For each column
                 currentBlockPos = (blockWidth*x, yOffset + blockHeight*y)
                 currentBlockSize = (blockWidth, blockHeight)
-                numberIdentification = (y, x)
+                numberIdentification = (y, x) #This might be useless
                 self.__blocks[y].append(Block((255/(yBlocks)*(y+1), 255-(255/(yBlocks)*(y+1)), 255/(xBlocks)*(x+1)), currentBlockPos, currentBlockSize, numberIdentification))
 
 class ScoreScene(scene.Scene):
@@ -138,16 +152,18 @@ class ScoreScene(scene.Scene):
         x, y = self.__screen.get_size()
         x //= 100 #One percent of pixels in the x axis
         y //= 100 #One percent of pixels in the y axix
-        self.__scoreDisplaySurface = TextBox(20, [50, 40], "Score:"+str(self.__score), (x, y))
-        self.__continueButton = TextBox(10, [50, 85], "Continue to menu", (x, y))
+        self.__scoreDisplaySurface = TextBox(20, [50, 40], "Score:"+str(self.__score), (x, y)) #Score
+        self.__continueButton = TextBox(10, [50, 85], "Continue to menu", (x, y)) #Continue button
 
     def loop(self, events):
         done = False
 
+        #Display background, score and continuen button
         self.__screen.fill((255, 255, 255))
         self.__scoreDisplaySurface.blit(self.__screen, True)
         self.__continueButton.blit(self.__screen, True)
 
+        #Input handling
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
