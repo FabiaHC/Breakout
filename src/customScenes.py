@@ -41,10 +41,13 @@ class MenuScene(scene.Scene):
 class InGameScene(scene.Scene):
     def __init__(self, screen):
         self.__screen = screen
-        self.__score = 0
         self.init({})
 
     def init(self, vars):
+        self.__score = 0
+        self.spritesInit()
+
+    def spritesInit(self):
         self.__initBlocks()
         x, y = self.__screen.get_size()
         self.__bar = Bar((x//2 - x//20, y - y//5), (x//10, y//50))
@@ -102,7 +105,7 @@ class InGameScene(scene.Scene):
         for yRow in self.__blocks:
             if len(yRow) != 0:
                 return done
-        self.init({})
+        self.spritesInit()
         return done
 
     def __initBlocks(self):
