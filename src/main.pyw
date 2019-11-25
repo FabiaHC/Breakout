@@ -15,7 +15,6 @@ def main():
     sceneManager.addScene("inGame", InGameScene(screen))
     sceneManager.addScene("scoreDisplay", ScoreScene(screen))
 
-
     pygame.mixer.music.play(-1,0.0)
     while not done:
         events = events = pygame.event.get()

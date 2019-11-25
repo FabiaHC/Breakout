@@ -9,6 +9,7 @@ class MenuScene(scene.Scene):
         self.init({})
 
     def init(self, vars):
+        pygame.mouse.set_visible(True)
         x, y = self.__screen.get_size()
         x //= 100 #One percent of pixels in the x axis
         y //= 100 #One percent of pixels in the y axis
@@ -44,6 +45,7 @@ class InGameScene(scene.Scene):
         self.init({})
 
     def init(self, vars):
+        pygame.mouse.set_visible(False)
         self.__score = 0
         self.spritesInit()
 
@@ -131,6 +133,7 @@ class ScoreScene(scene.Scene):
         self.init({"score" : 0})
 
     def init(self, vars):
+        pygame.mouse.set_visible(True)
         self.__score = vars["score"]
         x, y = self.__screen.get_size()
         x //= 100 #One percent of pixels in the x axis
