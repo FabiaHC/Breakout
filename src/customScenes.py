@@ -97,6 +97,10 @@ class InGameScene(scene.Scene):
 
         self.__ball.updatePos()
 
+        for yRow in self.__blocks:
+            if len(yRow) != 0:
+                return done
+        self.init({})
         return done
 
     def __initBlocks(self):
