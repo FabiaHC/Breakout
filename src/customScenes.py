@@ -130,18 +130,24 @@ class ScoreScene(scene.Scene):
         x, y = self.__screen.get_size()
         x //= 100 #One percent of pixels in the x axis
         y //= 100 #One percent of pixels in the y axix
-        self.__scoreDisplaySurface = TextBox(20, [50, 50], "Score:"+str(self.__score), (x, y))
+        self.__scoreDisplaySurface = TextBox(20, [50, 40], "Score:"+str(self.__score), (x, y))
+        self.__continueButton = TextBox(10, [50, 85], "Continue to menu", (x, y))
 
     def loop(self, events):
         done = False
 
         self.__screen.fill((255, 255, 255))
         self.__scoreDisplaySurface.blit(self.__screen, True)
+        self.__continueButton.blit(self.__screen, True)
 
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     done = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos
+                if self.__continueButton.getRect().collidepoint(x, y):
+                    self.setScene("menu", {})
 
         return done
 
