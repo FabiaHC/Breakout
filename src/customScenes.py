@@ -44,6 +44,7 @@ class MenuScene(scene.Scene):
 class InGameScene(scene.Scene):
     def __init__(self, screen):
         self.__screen = screen
+        self.__pause = False
         self.init({})
 
     def init(self, vars):
@@ -60,6 +61,20 @@ class InGameScene(scene.Scene):
     def loop(self, events):
         done = False
 
+        #Input handling
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    done = True
+                if event.key == pygame.K_RETURN:
+                    if self.__pause == True:
+                        self.__pause = False
+                    else:
+                        self.__pause = True
+
+        if self.__pause == True:
+            return done
+
         x, y = pygame.mouse.get_pos()
 
         #Create score text
@@ -75,12 +90,6 @@ class InGameScene(scene.Scene):
         for yRow in self.__blocks:
             for block in yRow:
                 self.__screen.blit(block.getSurf(), block.getPos())
-
-        #Input handling
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    done = True
 
         #Update position of the bar
         self.__bar.updatePos((x, y))
