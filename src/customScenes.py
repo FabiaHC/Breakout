@@ -284,6 +284,7 @@ class Ball():
 
     def hitBar(self, barPos, barSize):
         x = self.__pos[0]
+        x += self.__size[0]/2
         barX = barPos[0]
         barXWidtht = barSize[0] // 2
         x -= barX
