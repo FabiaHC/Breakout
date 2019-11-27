@@ -45,6 +45,9 @@ class InGameScene(scene.Scene):
     def __init__(self, screen):
         self.__screen = screen
         self.__pause = False
+        x, y = self.__screen.get_size()
+        self.__pauseImg = pygame.image.load("assets/pause.png").convert_alpha()
+        self.__pauseImg = pygame.transform.scale(self.__pauseImg, (y//2, y//2))
         self.init({})
 
     def init(self, vars):
@@ -73,6 +76,8 @@ class InGameScene(scene.Scene):
                         self.__pause = True
 
         if self.__pause == True:
+            x, y = self.__screen.get_size()
+            self.__screen.blit(self.__pauseImg, (x//2 - y//4, y//4))
             return done
 
         x, y = pygame.mouse.get_pos()
