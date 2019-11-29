@@ -244,7 +244,7 @@ class Ball():
         self.__pos = position
         self.__size = size
         self.__vec = [1, -1]
-        self.__speed = 8
+        self.__speed = 20
         magnitude = math.sqrt(self.__vec[0]**2+self.__vec[1]**2)
         self.__vec[0] /= magnitude
         self.__vec[0] *= self.__speed
